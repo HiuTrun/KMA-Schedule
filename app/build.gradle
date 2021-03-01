@@ -46,4 +46,15 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.1.5'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+
+    def room_version = "2.2.6"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

@@ -63,58 +63,5 @@ public class Model {
                 return schedule;
         }
 
-        public static class Schedule {
-                @SerializedName("date")
-                @Expose
-                private String date;
-                @SerializedName("lessons")
-                @Expose
-                private List<Lesson> lessons;
-
-                private boolean isClicked;
-
-                public boolean isClicked() {
-                        return isClicked;
-                }
-
-                public void setClicked(boolean clicked) {
-                        isClicked = clicked;
-                }
-
-                public String getDate() {
-                        return date;
-                }
-
-                public List<Lesson> getLessons() {
-                        return lessons;
-                }
-
-                public static class Lesson {
-
-                        @SerializedName("lesson")
-                        @Expose
-                        private String lesson;
-                        @SerializedName("subject_name")
-                        @Expose
-                        private String subjectName;
-                        @SerializedName("address")
-                        @Expose
-                        private String address;
-
-                        public String getLesson() {
-                                return lesson;
-                        }
-
-                        public String getSubjectName() {
-                                return subjectName;
-                        }
-
-                        public String getAddress() {
-                                return address;
-                        }
-
-                }
-        }
-
 }
 
