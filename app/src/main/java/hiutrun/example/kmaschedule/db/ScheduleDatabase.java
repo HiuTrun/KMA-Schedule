@@ -13,9 +13,9 @@ import hiutrun.example.kmaschedule.model.Schedule;
         entities = {Schedule.class},
         version = 1)
 @TypeConverters(Converters.class)
-abstract class ScheduleDatabase extends RoomDatabase {
+public abstract class ScheduleDatabase extends RoomDatabase {
 
-    abstract ScheduleDao getScheduleDao();
+    public abstract ScheduleDao getScheduleDao();
     private static ScheduleDao scheduleDao;
 
     public synchronized static ScheduleDao  getInstance(Context context){
