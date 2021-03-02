@@ -1,5 +1,6 @@
 package hiutrun.example.kmaschedule.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,15 +11,18 @@ import java.util.List;
 @Entity(tableName = "schedule")
 public class Schedule {
 
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     private int ID;
 
     @SerializedName("date")
     @Expose
+    @ColumnInfo(name="date")
     private String date;
 
     @SerializedName("lessons")
     @Expose
+    @ColumnInfo(name = "lessons")
     private List<Lesson> lessons;
 
     private boolean isClicked;

@@ -31,4 +31,7 @@ public class RetrofitInstance {
         }
         return retrofit;
     }
+
+    public static ApiService api = getInstance().create(ApiService.class);
+
 }
