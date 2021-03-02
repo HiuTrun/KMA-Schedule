@@ -4,7 +4,12 @@ import hiutrun.example.kmaschedule.api.RetrofitInstance;
 import hiutrun.example.kmaschedule.db.ScheduleDatabase;
 
 public class ScheduleRepository {
+
     private ScheduleDatabase db;
+
+    public ScheduleRepository(ScheduleDatabase db) {
+        this.db = db;
+    }
 
     public void getTimetable(String username, String password, String hashpassword){
         RetrofitInstance.api.getTimetable(username,password,hashpassword);
