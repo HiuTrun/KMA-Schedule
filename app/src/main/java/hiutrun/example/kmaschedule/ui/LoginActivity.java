@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = edtPassword.getText().toString();
         Student student = new Student(username,password);
         Log.d(TAG, "onClick: "+student.getUsername());
-        viewModel.getTimetable(student);
+        viewModel.getTimetable(this,student);
     }
 
 }

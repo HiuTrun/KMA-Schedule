@@ -10,6 +10,7 @@ import hiutrun.example.kmaschedule.R;
 import hiutrun.example.kmaschedule.api.ApiService;
 import hiutrun.example.kmaschedule.api.RetrofitInstance;
 import hiutrun.example.kmaschedule.model.Model;
+import hiutrun.example.kmaschedule.model.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,23 +22,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ApiService service = RetrofitInstance
-                .getInstance()
-                .create(ApiService.class);
-        Call<Model> call = service.getTimetable("CT040320","17/07/2001","md5");
-        call.enqueue(new Callback<Model>() {
-            @Override
-            public void onResponse(Call<Model> call, Response<Model> response) {
-                if(response.isSuccessful()){
-                    Log.d(TAG, "onResponse: "+response.body());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Model> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"Something went wrong", Toast.LENGTH_LONG).show();
-            }
-        });
+        String s = getIntent().getStringExtra("model");
+
+        Log.d(TAG, "onCreate: "+s);
     }
 
 

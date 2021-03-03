@@ -1,5 +1,7 @@
 package hiutrun.example.kmaschedule.repository;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Observable;
 import android.util.Log;
 
@@ -11,6 +13,8 @@ import hiutrun.example.kmaschedule.db.ScheduleDatabase;
 import hiutrun.example.kmaschedule.model.Lesson;
 import hiutrun.example.kmaschedule.model.Model;
 import hiutrun.example.kmaschedule.model.Schedule;
+import hiutrun.example.kmaschedule.model.Student;
+import hiutrun.example.kmaschedule.ui.MainActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.Call;
@@ -26,15 +30,20 @@ public class ScheduleRepository {
         this.db = db;
     }
 
-    public void getTimetable(String username, String password, String hashpassword){
+    public void getTimetable(Context context, String username, String password, String hashpassword){
         RetrofitInstance.api.getTimetable(username,password,hashpassword).enqueue(new Callback<Model>() {
             @Override
             public void onResponse(Call<Model> call, Response<Model> response) {
-                Log.d(TAG, "onResponse: "+Thread.currentThread().getName());
-                Log.d(TAG, "onResponse: "+ response.body());
-                List<Schedule> list = response.body().getSchedule();
-                db.getScheduleDao().insert(list);
-
+                if(response.isSuccessful()){
+                    if(response.body().getError() == null ){
+                        List<Schedule> list = response.body().getSchedule();
+                        db.getScheduleDao().insert(list);
+                        Intent intent = new Intent(context,MainActivity.class);;
+                        String s = response.body().getName() + response.body().getStudentId();
+                        intent.putExtra("model",s);
+                        context.startActivity(intent);
+                    }
+                }
             }
 
             @Override

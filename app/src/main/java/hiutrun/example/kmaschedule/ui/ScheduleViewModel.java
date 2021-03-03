@@ -1,5 +1,7 @@
 package hiutrun.example.kmaschedule.ui;
 
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
 import hiutrun.example.kmaschedule.model.Student;
@@ -12,7 +14,7 @@ public class ScheduleViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public void getTimetable(Student student){
-        repository.getTimetable(student.getUsername(),student.getPassword(),"md5");
+    public void getTimetable(Context context, Student student){
+        repository.getTimetable(context,student.getUsername(),student.getPassword(),"md5");
     }
 }
