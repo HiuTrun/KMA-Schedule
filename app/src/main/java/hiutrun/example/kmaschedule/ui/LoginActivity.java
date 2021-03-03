@@ -27,33 +27,35 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        initUI();
+
         ScheduleDatabase db = ScheduleDatabase.getInstance(this);
         ScheduleRepository repository = new ScheduleRepository(db);
         ScheduleViewModelProviderFactory factory = new ScheduleViewModelProviderFactory(repository);
         ScheduleViewModel viewModel = new ViewModelProvider(this, factory).get(ScheduleViewModel.class);
-        handleUser(viewModel);
+        initUI(viewModel);
+
+
     }
 
-    private void initUI(){
+    private void initUI(ScheduleViewModel viewModel){
         edtUsername = this.findViewById(R.id.edtUsername);
         edtPassword = this.findViewById(R.id.edtPassword);
         btnLogin = this.findViewById(R.id.btnLogin);
         progressBar = this.findViewById(R.id.progressBar);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleUser(viewModel);
+            }
+        });
     }
 
     private void handleUser(ScheduleViewModel viewModel){
-
-            String username = edtUsername.getText().toString();
-            String password = edtPassword.getText().toString();
-            Student student = new Student(username,password);
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "onClick: ");
-                    viewModel.getTimetable(student);
-                }
-            });
+        String username = edtUsername.getText().toString();
+        String password = edtPassword.getText().toString();
+        Student student = new Student(username,password);
+        Log.d(TAG, "onClick: "+student.getUsername());
+        viewModel.getTimetable(student);
     }
 
 }

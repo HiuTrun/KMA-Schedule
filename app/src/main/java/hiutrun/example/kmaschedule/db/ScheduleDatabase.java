@@ -16,14 +16,16 @@ import hiutrun.example.kmaschedule.model.Schedule;
 public abstract class ScheduleDatabase extends RoomDatabase {
 
     public abstract ScheduleDao getScheduleDao();
-    private static ScheduleDatabase scheduleDatabase;
+    private static ScheduleDatabase instance;
 
     public synchronized static ScheduleDatabase getInstance(Context context){
-        if(scheduleDatabase==null){
+        if(instance==null){
             // Create database
-            scheduleDatabase =  Room.databaseBuilder(context.getApplicationContext(),ScheduleDatabase.class,"scheduledb.db")
+            instance =  Room.databaseBuilder(context.getApplicationContext(),ScheduleDatabase.class,"scheduledb.db")
+                    //.fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build();
         }
-        return scheduleDatabase;
+        return instance;
     }
 }

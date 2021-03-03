@@ -3,9 +3,10 @@ package hiutrun.example.kmaschedule.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Model {
+public class Model implements Serializable {
         @SerializedName("error")
         @Expose
         private String error;
