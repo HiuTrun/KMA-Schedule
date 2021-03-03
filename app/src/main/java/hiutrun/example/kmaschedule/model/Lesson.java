@@ -17,6 +17,12 @@ public class Lesson {
     @Expose
     private String address;
 
+    public Lesson(String lesson, String subjectName, String address) {
+        this.lesson = lesson;
+        this.subjectName = subjectName;
+        this.address = address;
+    }
+
     public String getLesson() {
         return lesson;
     }

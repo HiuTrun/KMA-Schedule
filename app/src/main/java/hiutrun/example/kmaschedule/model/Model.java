@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class Model implements Serializable {
+public class Model  {
         @SerializedName("error")
         @Expose
         private String error;

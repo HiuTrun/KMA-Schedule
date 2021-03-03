@@ -1,6 +1,8 @@
 package hiutrun.example.kmaschedule.model;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student{
     private String username;
     private String password;
 
