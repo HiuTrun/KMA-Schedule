@@ -10,7 +10,7 @@ import androidx.room.Query;
 import java.util.List;
 
 import hiutrun.example.kmaschedule.model.Schedule;
-import io.reactivex.Single;
+import io.reactivex.Flowable;
 
 @Dao
 public interface ScheduleDao {
@@ -19,5 +19,5 @@ public interface ScheduleDao {
     void insert(List<Schedule> schedules);
 
     @Query("Select * from schedule where date =:date ")
-    Schedule getAllEvent(String date);
+    Flowable<Schedule> getAllEvent(String date);
 }
