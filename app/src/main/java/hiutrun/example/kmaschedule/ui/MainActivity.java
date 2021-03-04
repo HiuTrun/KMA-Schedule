@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +25,16 @@ import java.util.List;
 import hiutrun.example.kmaschedule.R;
 import hiutrun.example.kmaschedule.adapter.EventAdapter;
 
+import hiutrun.example.kmaschedule.db.Converters;
+import hiutrun.example.kmaschedule.db.ScheduleDatabase;
 import hiutrun.example.kmaschedule.model.Lesson;
+import hiutrun.example.kmaschedule.model.Schedule;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.SingleObserver;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,13 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = calendar.getEvents(dateClicked);
-                List<Lesson> list = new ArrayList<>();
-
-                list.add(new Lesson("Javascript","Javascript","Javascript"));
-                list.add(new Lesson("Javascript","Javascript","Javascript"));
-                list.add(new Lesson("Javascript","Javascript","Javascript"));
-                adapter.setLessons(list);
-                rvEvent.setAdapter(adapter);
+                //rvEvent.setAdapter(adapter);
             }
 
             @Override
@@ -60,6 +65,32 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
             }
         });
+
+        ScheduleDatabase.getInstance(this).getScheduleDao().getAllEvent("1611792000000")
+                .subscribeOn(Schedulers.io())
+                .subscribe(new FlowableSubscriber<Schedule>() {
+                    @Override
+                    public void onSubscribe(@NonNull Subscription s) {
+
+                    }
+
+                    @Override
+                    public void onNext(Schedule schedule) {
+                        List<Lesson> lessons = schedule.getLessons();
+                        adapter.setLessons(lessons);
+                        rvEvent.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void init(){
