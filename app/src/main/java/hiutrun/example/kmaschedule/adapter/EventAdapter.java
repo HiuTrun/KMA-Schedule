@@ -47,6 +47,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
+        Log.d("TAG", "getItemCount: "+lessons.size());
         return lessons.size();
     }
 
