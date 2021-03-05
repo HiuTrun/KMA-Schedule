@@ -56,11 +56,7 @@ public class ScheduleRepository {
 
                                     @Override
                                     public void onNext(@NonNull Model model) {
-                                        Log.d(TAG, "onNext: OK "+Thread.currentThread().getName());
                                         db.getScheduleDao().insert(model.getSchedule());
-                                        Log.d(TAG, "onNext: hêlo");
-                                        //List<Lesson> lst = getAllEvent("1611792000000");
-                                        //Log.d(TAG, "onNext: "+lst.get(1).getAddress());
 
                                     }
 
