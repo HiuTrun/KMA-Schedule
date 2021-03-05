@@ -17,10 +17,13 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import org.reactivestreams.Subscription;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import hiutrun.example.kmaschedule.R;
 import hiutrun.example.kmaschedule.adapter.EventAdapter;
@@ -56,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                List<Event> events = calendar.getEvents(dateClicked);
-                //rvEvent.setAdapter(adapter);
+                Schedule schedule = (Schedule) ScheduleDatabase.getInstance(getApplicationContext()).getScheduleDao().getAllEvent("1620691200000");
+                List<Lesson> list = schedule.getLessons();
+                Log.d(TAG, "onCreate: "+list.get(1).getAddress());
+                Log.d(TAG, "onCreate: "+list.get(1).getSubjectName());
+                adapter.setLessons(list);
+
             }
 
             @Override
@@ -66,31 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ScheduleDatabase.getInstance(this).getScheduleDao().getAllEvent("1611792000000")
-                .subscribeOn(Schedulers.io())
-                .subscribe(new FlowableSubscriber<Schedule>() {
-                    @Override
-                    public void onSubscribe(@NonNull Subscription s) {
 
-                    }
 
-                    @Override
-                    public void onNext(Schedule schedule) {
-                        List<Lesson> lessons = schedule.getLessons();
-                        adapter.setLessons(lessons);
-                        rvEvent.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     private void init(){
@@ -101,10 +85,13 @@ public class MainActivity extends AppCompatActivity {
         List<Event> events = calendar.getEvents(1614770897000L);
         calendar.addEvent(ev1);
 
+        Schedule schedule = (Schedule) ScheduleDatabase.getInstance(getApplicationContext()).getScheduleDao().getAllEvent("1620691200000");
+        List<Lesson> list = schedule.getLessons();
         rvEvent = (RecyclerView)this.findViewById(R.id.rvEvent);
-        adapter = new EventAdapter(this,null);
+        adapter = new EventAdapter(this,list);
         rvEvent.setLayoutManager(new LinearLayoutManager(this));
         tvName = this.findViewById(R.id.tvName);
+        rvEvent.setAdapter(adapter);
     }
 
 
