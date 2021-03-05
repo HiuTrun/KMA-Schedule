@@ -19,5 +19,5 @@ public interface ScheduleDao {
     void insert(List<Schedule> schedules);
 
     @Query("Select * from schedule where date =:date ")
-    Flowable<Schedule> getAllEvent(String date);
+    Schedule getAllEvent(String date);
 }

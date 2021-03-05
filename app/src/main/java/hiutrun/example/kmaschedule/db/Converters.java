@@ -14,8 +14,10 @@ public class Converters {
 
     @TypeConverter
     public static List<Lesson> fromString(String value){
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        return new Gson().fromJson(value, listType);
+        Gson gson = new Gson();
+        return (List<Lesson>) gson.fromJson(value,
+                new TypeToken<List<Lesson>>() {
+                }.getType());
     }
 
     @TypeConverter

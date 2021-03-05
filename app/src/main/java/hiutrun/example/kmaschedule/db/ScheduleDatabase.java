@@ -23,7 +23,7 @@ public abstract class ScheduleDatabase extends RoomDatabase {
             // Create database
             instance =  Room.databaseBuilder(context.getApplicationContext(),ScheduleDatabase.class,"scheduledb.db")
                     //.fallbackToDestructiveMigration()
-//                    .allowMainThreadQueries()
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;
