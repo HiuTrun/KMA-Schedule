@@ -41,35 +41,15 @@ public class ScheduleRepository {
             public void onResponse(Call<Model> call, Response<Model> response) {
                 if(response.isSuccessful()){
                     if(response.body().getError() == null ){
+                        Log.d(TAG, "onResponse: hello");
                         List<Schedule> list = response.body().getSchedule();
                         Intent intent = new Intent(context,MainActivity.class);;
                         String s = response.body().getName() + response.body().getStudentId();
                         intent.putExtra("model",s);
                         context.startActivity(intent);
-                        Observable.just(response.body())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new Observer<Model>() {
-                                    @Override
-                                    public void onSubscribe(@NonNull Disposable d) {
 
-                                    }
-
-                                    @Override
-                                    public void onNext(@NonNull Model model) {
-                                        db.getScheduleDao().insert(model.getSchedule());
-
-                                    }
-
-                                    @Override
-                                    public void onError(@NonNull Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
+                        // Insert all of items to db
+                        db.getScheduleDao().insert(list).subscribeOn(Schedulers.io()).subscribe();
                     }
                 }
             }

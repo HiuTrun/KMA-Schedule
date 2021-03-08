@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@color/colorPrimary"
     tools:context=".ui.MainActivity">
 
     <TextView
@@ -42,12 +42,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"></TextView>
 
+    <TextView
+        android:id="@+id/textDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tháng 3/2021"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"></TextView>
+
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="223dp"
+        android:layout_height="240dp"
         android:layout_margin="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="24dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:compactCalendarBackgroundColor="@android:color/transparent"
@@ -60,29 +74,47 @@
         app:compactCalendarTargetHeight="250dp"
         app:compactCalendarTextColor="@color/white"
         app:compactCalendarTextSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:layout_constraintVertical_bias="0.0"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
+        app:layout_constraintTop_toBottomOf="@+id/textDay"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/event_layout"
-        android:layout_width="411dp"
-        android:layout_height="487dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/round_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/round_list_event"
         android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView">
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
             android:id="@+id/rvEvent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"></androidx.recyclerview.widget.RecyclerView>
+
+        <ImageButton
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_exit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvEvent"
+            app:layout_constraintVertical_bias="1.0"></ImageButton>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

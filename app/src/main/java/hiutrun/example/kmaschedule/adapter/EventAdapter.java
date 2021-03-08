@@ -43,12 +43,35 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         Lesson lesson = lessons.get(position);
         holder.tvTitle.setText(lesson.getSubjectName());
         holder.tvLocation.setText(lesson.getAddress());
+
+        switch (lesson.getLesson()){
+            case "1,2,3":
+                holder.tvTime.setText("7:00 - 9:25");
+                break;
+            case "4,5,6":
+                holder.tvTime.setText("9:30 - 12:00");
+                break;
+            case "7,8,9":
+                holder.tvTime.setText("12:30 - 14:55");
+                break;
+            case "10,11,12":
+                holder.tvTime.setText("15:00 - 16:55");
+                break;
+            case "13,14,15,16":
+                holder.tvTime.setText("18:00 - 21:15");
+                break;
+            default:
+                holder.tvTime.setText("null");
+
+        }
     }
 
     @Override
     public int getItemCount() {
-        Log.d("TAG", "getItemCount: "+lessons.size());
-        return lessons.size();
+       // Log.d("TAG", "getItemCount: "+lessons.size());
+        if(lessons == null)
+            return 0;
+        else return lessons.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

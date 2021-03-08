@@ -1,5 +1,6 @@
 package hiutrun.example.kmaschedule.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,15 +9,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
 @Entity(tableName = "schedule")
 public class Schedule {
 
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    private int ID;
-
+    @PrimaryKey
     @SerializedName("date")
     @Expose
+    @NonNull
     @ColumnInfo(name="date")
     private String date;
 
@@ -41,14 +41,6 @@ public class Schedule {
 
     public List<Lesson> getLessons() {
         return lessons;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public void setDate(String date) {
