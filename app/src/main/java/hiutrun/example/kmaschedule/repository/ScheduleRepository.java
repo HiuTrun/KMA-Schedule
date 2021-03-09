@@ -44,7 +44,7 @@ public class ScheduleRepository {
                         Log.d(TAG, "onResponse: hello");
                         List<Schedule> list = response.body().getSchedule();
                         Intent intent = new Intent(context,MainActivity.class);;
-                        String s = response.body().getName() + response.body().getStudentId();
+                        String s = response.body().getName();
                         intent.putExtra("model",s);
                         context.startActivity(intent);
 

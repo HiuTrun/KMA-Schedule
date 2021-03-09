@@ -3,7 +3,9 @@ package hiutrun.example.kmaschedule.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.RoomDatabase;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+
+import java.io.File;
 
 import hiutrun.example.kmaschedule.R;
 import hiutrun.example.kmaschedule.db.ScheduleDatabase;
@@ -31,10 +35,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        if(ScheduleDatabase.getInstance(this). != null){
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//        }
+        if(checkDatabase(this, "scheduledb.db")){
+            Log.d(TAG, "onStart: "+checkDatabase(this, "scheduledb.db"));
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -47,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         ScheduleViewModelProviderFactory factory = new ScheduleViewModelProviderFactory(repository);
         ScheduleViewModel viewModel = new ViewModelProvider(this, factory).get(ScheduleViewModel.class);
         initUI(viewModel);
-
 
     }
 
@@ -72,6 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getTimetable(this,student);
     }
 
-
+ private boolean checkDatabase(Context context, String dbName){
+         File dbFile = context.getDatabasePath(dbName);
+         return dbFile.exists();
+ }
 
 }

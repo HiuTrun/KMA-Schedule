@@ -25,5 +25,5 @@ public interface ScheduleDao {
     Schedule getAllEvent(String date);
 
     @Query("Select * from schedule")
-    Single<List<Schedule>> getAllSchedule();
+    List<Schedule> getAllSchedule();
 }

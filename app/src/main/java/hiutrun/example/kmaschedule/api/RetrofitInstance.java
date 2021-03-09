@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitInstance {
     private static int TIME_OUT = 100;
     private static Retrofit retrofit;
-    private static String BASE_URL = "http://schedulekma.herokuapp.com/";
+    private static String BASE_URL = "https://schedulekma.herokuapp.com/";
     public synchronized static Retrofit getInstance(){
         if(retrofit==null){
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor()

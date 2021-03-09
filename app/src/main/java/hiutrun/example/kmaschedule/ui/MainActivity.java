@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+
+import org.reactivestreams.Subscription;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +38,7 @@ import hiutrun.example.kmaschedule.adapter.EventAdapter;
 import hiutrun.example.kmaschedule.db.ScheduleDatabase;
 import hiutrun.example.kmaschedule.model.Lesson;
 import hiutrun.example.kmaschedule.model.Schedule;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,14 +54,22 @@ public class MainActivity extends AppCompatActivity {
     private EventAdapter adapter;
     private ImageButton logout;
     private TextView textDay;
+    private String s;
+    public Date date = new Date();
 
     private final String TAG = MainActivity.class.getSimpleName();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-//        String s = getIntent().getStringExtra("model");
+//        s = getIntent().getStringExtra("model");
 //        Log.d(TAG, "onCreate: "+s);
 
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -75,13 +87,10 @@ public class MainActivity extends AppCompatActivity {
                     list = new ArrayList<>();
                 }
                 adapter.setLessons(list);
-
             }
-
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
-                //textDay.setText("Tháng "+);
+                textDay.setText("Tháng "+ DateFormat.format("MM/yyyy", firstDayOfNewMonth.getTime()));
             }
         });
 
@@ -90,34 +99,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+//        Schedule schedule = (Schedule) ScheduleDatabase.getInstance(getApplicationContext()).getScheduleDao().getAllEvent();
+//        List<Lesson> list;
+//        if(schedule!=null){
+//            list = schedule.getLessons();
+//        }
         calendar = this.findViewById(R.id.calendarView);
+        List<Schedule> schedules = ScheduleDatabase.getInstance(this).getScheduleDao()
+                .getAllSchedule();
+        for (Schedule item: schedules
+        ) {
+            Event event = new Event(Color.WHITE, Long.parseLong(item.getDate()), "Some extra data that I want to store.");
+            calendar.addEvent(event);
+        }
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setUseThreeLetterAbbreviation(true);
         textDay = this.findViewById(R.id.textDay);
-//        ScheduleDatabase.getInstance(this).getScheduleDao()
-//                .getAllSchedule()
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new SingleObserver<List<Schedule>>() {
-//                               @Override
-//                               public void onSubscribe(@NonNull Disposable d) {
-//
-//                               }
-//
-//                               @Override
-//                               public void onSuccess(@NonNull List<Schedule> schedules) {
-//                                   for (Schedule item: schedules
-//                                   ) {
-//                                       Event event = new Event(Color.WHITE, Long.parseLong(item.getDate()), "Some extra data that I want to store.");
-//                                       calendar.addEvent(event);
-//                                   }
-//                               }
-//
-//                               @Override
-//                               public void onError(@NonNull Throwable e) {
-//
-//                               }
-//                           }
-//                );
+
+
         logout = (ImageButton)this.findViewById(R.id.exit);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new EventAdapter(this,null);
         rvEvent.setLayoutManager(new LinearLayoutManager(this));
         tvName = this.findViewById(R.id.tvName);
+        tvName.setText("Lương Trung Hiếu");
         rvEvent.setAdapter(adapter);
     }
 
@@ -141,10 +141,14 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(false);
+        AlertDialog dialog = alert.create();
+
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"You positive",Toast.LENGTH_SHORT).show();
+            deleteDatabase("scheduledb.db");
+            dialog.dismiss();
+            finish();
             }
         });
 
@@ -152,10 +156,9 @@ public class MainActivity extends AppCompatActivity {
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"You negative",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
-        AlertDialog dialog = alert.create();
         dialog.show();
     }
 
