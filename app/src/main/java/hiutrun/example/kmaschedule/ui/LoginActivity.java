@@ -69,16 +69,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleUser(ScheduleViewModel viewModel){
-        String username = edtUsername.getText().toString();
+        String username = edtUsername.getText().toString().toUpperCase();
         String password = edtPassword.getText().toString();
         Student student = new Student(username,password);
         Log.d(TAG, "onClick: "+student.getUsername());
-        viewModel.getTimetable(this,student);
+        viewModel.signIn(this,student);
     }
 
  private boolean checkDatabase(Context context, String dbName){
          File dbFile = context.getDatabasePath(dbName);
          return dbFile.exists();
  }
-
 }

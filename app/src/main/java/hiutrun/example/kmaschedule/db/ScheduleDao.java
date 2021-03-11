@@ -22,8 +22,8 @@ public interface ScheduleDao {
     Completable insert(List<Schedule> schedules);
 
     @Query("Select * from schedule where date =:date ")
-    Schedule getAllEvent(String date);
+    Single<Schedule> getEvent(String date);
 
     @Query("Select * from schedule")
-    List<Schedule> getAllSchedule();
+    Observable<List<Schedule>> getAllEvents();
 }

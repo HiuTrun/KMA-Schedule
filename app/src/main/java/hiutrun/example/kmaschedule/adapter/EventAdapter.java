@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import hiutrun.example.kmaschedule.R;
@@ -40,28 +42,34 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Lesson lesson = lessons.get(position);
-        holder.tvTitle.setText(lesson.getSubjectName());
-        holder.tvLocation.setText(lesson.getAddress());
-
-        switch (lesson.getLesson()){
-            case "1,2,3":
-                holder.tvTime.setText("7:00 - 9:25");
-                break;
-            case "4,5,6":
-                holder.tvTime.setText("9:30 - 12:00");
-                break;
-            case "7,8,9":
-                holder.tvTime.setText("12:30 - 14:55");
-                break;
-            case "10,11,12":
-                holder.tvTime.setText("15:00 - 16:55");
-                break;
-            case "13,14,15,16":
-                holder.tvTime.setText("18:00 - 21:15");
-                break;
-            default:
-                holder.tvTime.setText("null");
+        Log.d("Event Adapter", "onBindViewHolder: "+lessons.isEmpty());
+        if(lessons!=null){
+            Lesson lesson = lessons.get(position);
+            holder.tvTitle.setText(lesson.getSubjectName());
+            holder.tvLocation.setText(lesson.getAddress());
+            switch (lesson.getLesson()){
+                case "1,2,3":
+                    holder.tvTime.setText("7:00 - 9:25");
+                    break;
+                case "4,5,6":
+                    holder.tvTime.setText("9:30 - 12:00");
+                    break;
+                case "7,8,9":
+                    holder.tvTime.setText("12:30 - 14:55");
+                    break;
+                case "10,11,12":
+                    holder.tvTime.setText("15:00 - 16:55");
+                    break;
+                case "13,14,15,16":
+                    holder.tvTime.setText("18:00 - 21:15");
+                    break;
+                default:
+                    holder.tvTime.setText("null");
+            }
+        }else {
+            Log.d("Event Adapter", "onBindViewHolder: here");
+            holder.tvStatus.setText("Bạn không có lịch học vào hôm nay!");
+            holder.tvStatus.setVisibility(View.VISIBLE);
 
         }
     }
@@ -78,12 +86,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         private TextView tvTitle;
         private TextView tvLocation;
         private TextView tvTime;
+        private TextView tvStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
         }
     }
 }

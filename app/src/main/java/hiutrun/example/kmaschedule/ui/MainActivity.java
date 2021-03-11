@@ -1,10 +1,15 @@
 package hiutrun.example.kmaschedule.ui;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.DatabaseConfiguration;
+import androidx.room.InvalidationTracker;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -35,15 +40,17 @@ import java.util.List;
 import hiutrun.example.kmaschedule.R;
 import hiutrun.example.kmaschedule.adapter.EventAdapter;
 
+import hiutrun.example.kmaschedule.db.ScheduleDao;
 import hiutrun.example.kmaschedule.db.ScheduleDatabase;
 import hiutrun.example.kmaschedule.model.Lesson;
 import hiutrun.example.kmaschedule.model.Schedule;
+import hiutrun.example.kmaschedule.repository.ScheduleRepository;
 import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,13 +63,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textDay;
     private String s;
     public Date date = new Date();
+    private ScheduleViewModel viewModel;
+    private ScheduleRepository repository;
+
 
     private final String TAG = MainActivity.class.getSimpleName();
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Long i = dateClicked.getTime() + 25200000;
                 Log.d(TAG, "onDayClick: "+i);
                 Log.d(TAG, "onDayClick: "+dateClicked.toString());
-                Schedule schedule = (Schedule) ScheduleDatabase.getInstance(getApplicationContext()).getScheduleDao().getAllEvent(i.toString());
-                List<Lesson> list;
-                if(schedule!=null){
-                    list = schedule.getLessons();
-                }else
-                {
-                    list = new ArrayList<>();
-                }
-                adapter.setLessons(list);
+                viewModel.getTimetable(MainActivity.this,i,adapter);
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
@@ -99,19 +96,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-//        Schedule schedule = (Schedule) ScheduleDatabase.getInstance(getApplicationContext()).getScheduleDao().getAllEvent();
-//        List<Lesson> list;
-//        if(schedule!=null){
-//            list = schedule.getLessons();
-//        }
+
         calendar = this.findViewById(R.id.calendarView);
-        List<Schedule> schedules = ScheduleDatabase.getInstance(this).getScheduleDao()
-                .getAllSchedule();
-        for (Schedule item: schedules
-        ) {
-            Event event = new Event(Color.WHITE, Long.parseLong(item.getDate()), "Some extra data that I want to store.");
-            calendar.addEvent(event);
-        }
+        repository = new ScheduleRepository(ScheduleDatabase.getInstance(this));
+        ScheduleViewModelProviderFactory factory = new ScheduleViewModelProviderFactory(repository);
+        viewModel = new ViewModelProvider(this,factory).get(ScheduleViewModel.class);
+
+        viewModel.getAllEvents(calendar);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setUseThreeLetterAbbreviation(true);
         textDay = this.findViewById(R.id.textDay);
