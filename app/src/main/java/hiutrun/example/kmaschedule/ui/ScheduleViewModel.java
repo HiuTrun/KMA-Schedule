@@ -2,6 +2,7 @@ package hiutrun.example.kmaschedule.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 
@@ -43,30 +44,40 @@ public class ScheduleViewModel extends ViewModel {
     }
 
     public void signIn(Context context, Student student){
-        repository.signIn(context,student.getUsername(),student.getPassword(),"md5").enqueue(new Callback<Model>() {
-            @Override
-            public void onResponse(Call<Model> call, Response<Model> response) {
-                if(response.isSuccessful()){
-                    if(response.body().getError() == null ){
+        repository.signIn(context,student.getUsername(),student.getPassword(),"md5")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Model>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
 
-                        List<Schedule> list = response.body().getSchedule();
-                        Intent intent = new Intent(context,MainActivity.class);;
-                        String s = response.body().getName();
-                        intent.putExtra("model",s);
-                        context.startActivity(intent);
-
-                        // Insert all of items to db
-                        repository.insert(list);
-                        ;
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Model> call, Throwable t) {
-                Log.d(TAG, "onFailure: failed");
-            }
-        });
+                    @Override
+                    public void onNext(@io.reactivex.annotations.NonNull Model model) {
+                                List<Schedule> list = model.getSchedule();
+                                Intent intent = new Intent(context,MainActivity.class);;
+                                String s = model.getName();
+                                //intent.putExtra("model",s);
+//                                SharedPreferences sharedPrf = context.getSharedPreferences("USER",Context.MODE_PRIVATE);
+//                                SharedPreferences.Editor editor = sharedPrf.edit();
+//                                editor.putString("username", s);
+//                                editor.commit();
+                                context.startActivity(intent);
+                                // Insert all of items to db
+                                repository.insert(list);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                        Log.e(TAG, "onError: ",e );
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     public void getTimetable(Context context, Long miliSeconds, EventAdapter adapter){
@@ -113,7 +124,7 @@ public class ScheduleViewModel extends ViewModel {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
-
+                        calendar.removeAllEvents();
                     }
 
                     @Override

@@ -11,7 +11,9 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,9 +75,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        SharedPreferences sharedPreferences = this.getSharedPreferences("USER", Context.MODE_PRIVATE);
+//        String s = sharedPreferences.getString("usename","Sinh Viên");
+//        tvName.setText(s);
         init();
 //        s = getIntent().getStringExtra("model");
 //        Log.d(TAG, "onCreate: "+s);
+
+        Log.d(TAG, "onCreate: "+date.getTime());
 
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -96,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+
+
+
 
         calendar = this.findViewById(R.id.calendarView);
         repository = new ScheduleRepository(ScheduleDatabase.getInstance(this));

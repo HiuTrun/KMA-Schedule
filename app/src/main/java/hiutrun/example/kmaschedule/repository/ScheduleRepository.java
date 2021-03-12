@@ -25,7 +25,7 @@ public class ScheduleRepository {
         this.db = db;
     }
 
-    public Call<Model> signIn(Context context, String username, String password, String hashpassword){
+    public Observable<Model> signIn(Context context, String username, String password, String hashpassword){
         return RetrofitInstance.api.signIn(username,password,hashpassword);
     }
 

@@ -35,15 +35,16 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         if(checkDatabase(this, "scheduledb.db")){
             Log.d(TAG, "onStart: "+checkDatabase(this, "scheduledb.db"));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
