@@ -68,8 +68,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             }
         }else {
             Log.d("Event Adapter", "onBindViewHolder: here");
-            holder.tvStatus.setText("Bạn không có lịch học vào hôm nay!");
-            holder.tvStatus.setVisibility(View.VISIBLE);
+            //holder.tvStatus.setText("Bạn không có lịch học vào hôm nay!");
+            //holder.tvStatus.setVisibility(View.VISIBLE);
 
         }
     }
@@ -93,7 +93,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             tvTime = itemView.findViewById(R.id.tvTime);
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvStatus = itemView.findViewById(R.id.tvStatus);
+            //tvStatus = itemView.findViewById(R.id.tvStatus);
         }
     }
 }

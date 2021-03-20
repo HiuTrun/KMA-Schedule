@@ -7,125 +7,19 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Xin chào"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/iv_Avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:src="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"></de.hdodenhof.circleimageview.CircleImageView>
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/white"
-        android:text="Lương Trung Hiếu "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"></TextView>
-
-    <TextView
-        android:id="@+id/textDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Tháng 3/2021"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"></TextView>
-
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_margin="20dp"
-        android:layout_marginStart="24dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="@android:color/transparent"
-        app:compactCalendarCurrentDayIndicatorStyle="fill_large_indicator"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#FFC107"
-        app:compactCalendarEventIndicatorStyle="small_indicator"
-        app:compactCalendarMultiEventIndicatorColor="#A8FFFFFF"
-        app:compactCalendarOtherMonthDaysTextColor="#534c4c"
-        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="true"
-        app:compactCalendarTargetHeight="250dp"
-        app:compactCalendarTextColor="@color/white"
-        app:compactCalendarTextSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDay"></com.github.sundeepk.compactcalendarview.CompactCalendarView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/event_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/round_list_event"
-        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView">
-
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn không có lịch học vào hôm nay!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvEvent"
+        app:layout_constraintTop_toTopOf="parent">
+        <fragment
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"></androidx.recyclerview.widget.RecyclerView>
-
-        <ImageButton
-            android:id="@+id/exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_exit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.956"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvEvent"
-            app:layout_constraintVertical_bias="1.0"></ImageButton>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/my_nav"></fragment>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
